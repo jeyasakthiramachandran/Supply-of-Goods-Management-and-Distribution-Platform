@@ -16,6 +16,7 @@ import java.util.Map;
 
 @Component
 public class JwtUtil {
+
     private static final String SECRET_KEY = "secretKey000000000000000000000000000000000000000000000000000000000000000000000000000000000000000";
     private static final long EXPIRATION_MS = 1000 * 60 * 60 * 10; // 10 hours
 

@@ -20,8 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collection;
 
+
 @Component
-public class JwtRequestFilter extends OncePerRequestFilter  {
+public class JwtRequestFilter extends OncePerRequestFilter {
+
     @Autowired
     @Lazy
     private UserDetailsService userDetailsService;
@@ -62,3 +64,5 @@ public class JwtRequestFilter extends OncePerRequestFilter  {
         filterChain.doFilter(request, response);
     }
 }
+
+
