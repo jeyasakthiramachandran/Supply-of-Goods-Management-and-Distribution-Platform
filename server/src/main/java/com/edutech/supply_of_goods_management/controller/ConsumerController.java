@@ -15,15 +15,52 @@ import com.edutech.supply_of_goods_management.service.ProductService;
 import java.util.List;
 
 
+@RestController
+@RequestMapping("/api/consumers")
 public class ConsumerController {
 
-   
-        // Get all products
-   
-        // Place order for the product
-    
-       // get all orders for the user (consumer)
-   
-       // Provide feedback for the order
-    
+    @Autowired
+    private ProductService productService;
+
+    @Autowired
+    private OrderService orderService;
+
+    @Autowired
+    private FeedbackService feedbackService;
+
+    @GetMapping("/products")
+    public ResponseEntity<List<Product>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @PostMapping("/order")
+    public ResponseEntity<Order> placeOrder(
+            @RequestParam Long productId,
+            @RequestParam Long userId,
+            @RequestBody Order order) {
+
+        return ResponseEntity.ok(
+                orderService.placeOrder(productId, userId, order)
+        );
+    }
+
+    @GetMapping("/orders")
+    public ResponseEntity<List<Order>> getOrdersByUser(
+            @RequestParam Long userId) {
+
+        return ResponseEntity.ok(
+                orderService.getOrderById(userId)
+        );
+    }
+
+    @PostMapping("/order/{orderId}/feedback")
+    public ResponseEntity<Feedback> submitFeedback(
+            @PathVariable Long orderId,
+            @RequestParam Long userId,
+            @RequestBody Feedback feedback) {
+
+        return ResponseEntity.ok(
+                feedbackService.provideFeedback(orderId, userId, feedback)
+        );
+    }
 }
