@@ -18,7 +18,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import com.edutech.supply_of_goods_management.jwt.JwtRequestFilter;
 
 
-public class SecurityConfig  {
 
     // Implement security configuration here
     // /api/user/register and /api/user/login should be permitted to all
@@ -38,5 +37,71 @@ public class SecurityConfig  {
     // /api/consumers/order/{orderId}/feedback should be permitted to CONSUMER
 
     // Note: Use hasAuthority method to check the role of the user
-    // for example, hasAuthority("CONSUMER")
+    // for example, hasAuthority("CONSUMER")}
+
+
+@Configuration
+@EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Autowired private UserDetailsService userDetailsService;
+    @Autowired private JwtRequestFilter   jwtRequestFilter;
+    @Autowired private PasswordEncoder    passwordEncoder;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
+    }
+
+    @Bean @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+        http.csrf().disable()
+            .authorizeRequests()
+                // .antMatchers("/api/user/register", "/api/user/login").permitAll()
+                .antMatchers("/api/user/register", "/api/user/login", "/api/user/verify-otp").permitAll()
+
+                // Payment — public (Razorpay callback needs no auth)
+                .antMatchers("/payment/**").permitAll()
+
+                // Manufacturer
+                .antMatchers(HttpMethod.POST,   "/api/manufacturers/product").hasAuthority("MANUFACTURER")
+                .antMatchers(HttpMethod.PUT,    "/api/manufacturers/product/**").hasAuthority("MANUFACTURER")
+                .antMatchers(HttpMethod.DELETE, "/api/manufacturers/product/**").hasAuthority("MANUFACTURER")
+                .antMatchers(HttpMethod.GET,    "/api/manufacturers/products").hasAuthority("MANUFACTURER")
+                .antMatchers(HttpMethod.GET,    "/api/manufacturers/orders").hasAuthority("MANUFACTURER")
+                .antMatchers(HttpMethod.PUT,    "/api/manufacturers/order/**").hasAuthority("MANUFACTURER")
+                .antMatchers(HttpMethod.GET,    "/api/manufacturers/feedbacks").hasAuthority("MANUFACTURER")
+
+                // Wholesaler
+                .antMatchers(HttpMethod.GET,  "/api/wholesalers/products").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.POST, "/api/wholesalers/order").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.PUT,  "/api/wholesalers/order/**").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.GET,  "/api/wholesalers/orders/placed").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.GET,  "/api/wholesalers/orders/received").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.POST, "/api/wholesalers/inventories").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.PUT,  "/api/wholesalers/inventories/**").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.GET,  "/api/wholesalers/inventories").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.GET,  "/api/wholesalers/feedbacks").hasAuthority("WHOLESALER")
+
+                // Consumer
+                .antMatchers(HttpMethod.GET,  "/api/consumers/products").hasAuthority("CONSUMER")
+                .antMatchers(HttpMethod.GET,  "/api/consumers/products/*/wholesalers").hasAuthority("CONSUMER")
+                .antMatchers(HttpMethod.POST, "/api/consumers/order").hasAuthority("CONSUMER")
+                .antMatchers(HttpMethod.GET,  "/api/consumers/orders").hasAuthority("CONSUMER")
+                .antMatchers(HttpMethod.PUT,  "/api/consumers/order/*/cancel").hasAuthority("CONSUMER")
+                .antMatchers(HttpMethod.POST, "/api/consumers/order/*/feedback").hasAuthority("CONSUMER")
+.antMatchers(HttpMethod.PUT, "/api/consumers/order/*/received").hasAuthority("CONSUMER")
+                .anyRequest().authenticated()
+            .and()
+            .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
+        http.addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class);
+    }
 }
+
