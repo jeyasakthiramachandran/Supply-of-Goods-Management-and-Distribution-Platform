@@ -81,9 +81,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Wholesaler
                 .antMatchers(HttpMethod.GET,  "/api/wholesalers/products").hasAuthority("WHOLESALER")
                 .antMatchers(HttpMethod.POST, "/api/wholesalers/order").hasAuthority("WHOLESALER")
+                .antMatchers(HttpMethod.GET, "/api/wholesalers/orders").hasAuthority("WHOLESALER")
                 .antMatchers(HttpMethod.PUT,  "/api/wholesalers/order/**").hasAuthority("WHOLESALER")
-                .antMatchers(HttpMethod.GET,  "/api/wholesalers/orders/placed").hasAuthority("WHOLESALER")
-                .antMatchers(HttpMethod.GET,  "/api/wholesalers/orders/received").hasAuthority("WHOLESALER")
                 .antMatchers(HttpMethod.POST, "/api/wholesalers/inventories").hasAuthority("WHOLESALER")
                 .antMatchers(HttpMethod.PUT,  "/api/wholesalers/inventories/**").hasAuthority("WHOLESALER")
                 .antMatchers(HttpMethod.GET,  "/api/wholesalers/inventories").hasAuthority("WHOLESALER")
