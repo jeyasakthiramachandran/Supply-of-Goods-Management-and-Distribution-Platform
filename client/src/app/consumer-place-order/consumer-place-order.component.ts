@@ -10,4 +10,5 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './consumer-place-order.component.html',
   styleUrls: ['./consumer-place-order.component.scss']
 })
-export class ConsumerPlaceOrderComponent //todo: complete missing code
+export class ConsumerPlaceOrderComponent{//todo: complete missing code
+  }

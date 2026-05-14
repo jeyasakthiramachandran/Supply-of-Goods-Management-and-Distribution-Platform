@@ -12,3 +12,4 @@ import { DatePipe } from '@angular/common';
   providers: [DatePipe]
 })
 export class ConsumerGetOrdersComponent //todo: complete missing code
+{}

@@ -11,3 +11,4 @@ import { AuthService } from '../../services/auth.service';
   styleUrls: ['./place-order.component.scss']
 })
 export class PlaceOrderComponent //todo: complete missing code
+{}

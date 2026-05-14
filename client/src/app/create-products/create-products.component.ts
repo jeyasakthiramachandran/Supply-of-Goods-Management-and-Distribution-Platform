@@ -9,4 +9,6 @@ import { AuthService } from '../../services/auth.service';
   templateUrl: './create-products.component.html',
   styleUrls: ['./create-products.component.scss']
 })
-export class CreateProductsComponent //todo: complete missing code
+export class CreateProductsComponent 
+//todo: complete missing code
+{}
