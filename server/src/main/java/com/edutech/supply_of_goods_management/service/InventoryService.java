@@ -18,11 +18,21 @@ public class InventoryService {
     @Autowired
     ProductRepository productRepository;
 
-    public Inventory addInventory(Long productId, Inventory inventory) {
-        Product product = productRepository.findById(productId).orElseThrow(() -> new RuntimeException("Product not found"));
-        inventory.setProduct(product);
-        return inventoryRepository.save(inventory);
-    }
+public Inventory addInventory(Long productId, Inventory inventory) {
+
+    Product product = productRepository.findById(productId)
+        .orElseThrow(() -> new RuntimeException("Product not found"));
+
+    // // ✅ Preserve wholesalerId from request
+    // if (inventory.getWholesalerId() == null) {
+    //     throw new RuntimeException("Wholesaler ID required");
+    // }
+
+    inventory.setProduct(product);
+
+    return inventoryRepository.save(inventory);
+}
+
 
     public Inventory updateInventory(Long id, int stockQuantity){
         Inventory inventory = inventoryRepository.findById(id).orElseThrow(() -> new RuntimeException("Inventory not found"));

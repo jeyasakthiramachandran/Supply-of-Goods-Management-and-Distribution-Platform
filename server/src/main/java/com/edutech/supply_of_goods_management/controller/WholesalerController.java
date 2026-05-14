@@ -54,11 +54,11 @@ public class WholesalerController {
             @RequestParam Long userId) {
 
         return ResponseEntity.ok(
-                orderService.getOrderById(userId)
+                orderService.getAllOrders(userId)
         );
     }
 
-    @PostMapping("/inventories")
+        @PostMapping("/inventories")
     public ResponseEntity<Inventory> addInventory(
             @RequestParam Long productId,
             @RequestBody Inventory inventory) {
@@ -67,4 +67,24 @@ public class WholesalerController {
                 inventoryService.addInventory(productId, inventory)
         );
 }
+
+@PutMapping("/inventories/{id}")
+public ResponseEntity<Inventory> updateInventory(
+        @PathVariable Long id,
+        @RequestParam int stockQuantity) {
+
+    return ResponseEntity.ok(
+        inventoryService.updateInventory(id, stockQuantity)
+    );
+}
+@GetMapping("/inventories")
+public ResponseEntity<List<Inventory>> getInventories(
+        @RequestParam Long wholesalerId) {
+
+    return ResponseEntity.ok(
+            inventoryService.getAllInventories(wholesalerId)
+    );
+}
+
+
 }

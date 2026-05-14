@@ -20,10 +20,10 @@ public class UserService implements UserDetailsService{
     
     @Autowired
     private UserRepository userRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
-
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     public User registerUser(User user){
-        user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

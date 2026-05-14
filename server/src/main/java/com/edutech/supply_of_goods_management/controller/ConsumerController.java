@@ -49,7 +49,7 @@ public class ConsumerController {
             @RequestParam Long userId) {
 
         return ResponseEntity.ok(
-                orderService.getOrderById(userId)
+                orderService.getAllOrders(userId)
         );
     }
 
