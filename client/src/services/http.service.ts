@@ -46,10 +46,10 @@ export class HttpService {
       return this.http.post(`${this.serverName}/api/consumers/order?productId=${productId}&userId=${userId}`,details,{headers:this.header()});
   }
   updateOrderStatus(id:any,status:any):Observable<any>{
-     return this.http.put(`${this.serverName}/api/wholesalers/order/${id}?status=${status}`,{headers:this.header()});
+     return this.http.put(`${this.serverName}/api/wholesalers/order/${id}?status=${status}`,null,{headers:this.header()});
   }
   addConsumerFeedBack(id:any,userId:any,details:any):Observable<any>{
-    return this.http.post(`${this.serverName}/api/consumers/order/${id}/feedback?=userId${userId}`,details,{headers:this.header()});
+    return this.http.post(`${this.serverName}/api/consumers/order/${id}/feedback?userId=${userId}`,details,{headers:this.header()});
   }
   createProduct(details:any):Observable<any>
   {
@@ -62,14 +62,14 @@ export class HttpService {
    return  this.http.post(`${this.serverName}/api/wholesalers/inventories?productId=${productId}`,details,{headers:this.header()})
   }
   updateInventory(stockQuantity:any,inventoryId:any):Observable<any>{
-    return this.http.put(`${this.serverName}/api/wholersalers/invertories/${inventoryId}?stockQuantity=${stockQuantity}`,null,{headers:this.header()})
+    return this.http.put(`${this.serverName}/api/wholesalers/inventories/${inventoryId}?stockQuantity=${stockQuantity}`,null,{headers:this.header()})
   }
   Login(details:any):Observable<any>
   {
-    return this.http.post(`${this.serverName}/api/user/login`,details)
+    return this.http.post(`${this.serverName}/api/user/login`,details,{headers:this.header()})
   }
   registerUser(details:any):Observable<any>{
-    return this.http.post(`${this.serverName}/api/user/register`,details)
+    return this.http.post(`${this.serverName}/api/user/register`,details,{headers:this.header()})
   }
   
 }
