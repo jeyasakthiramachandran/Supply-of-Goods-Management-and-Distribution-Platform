@@ -11,4 +11,6 @@ import { AuthService } from '../../services/auth.service';
 })
 export class CreateProductsComponent 
 //todo: complete missing code
-{}
+{
+  
+}
