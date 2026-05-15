@@ -1,10 +1,12 @@
 <div class="register-container">
   <div class="register-card">
 
-    <!-- Heading -->
     <h2>Registration</h2>
 
-    <!-- Error -->
+    <div *ngIf="successMsg" class="success-msg">
+      {{ successMsg }}
+    </div>
+
     <div *ngIf="errorMsg" class="error-msg">
       {{ errorMsg }}
     </div>
@@ -31,14 +33,17 @@
 
       <!-- Password -->
       <label>Password</label>
+
       <div class="password-box">
+
         <input 
           [type]="showPassword ? 'text' : 'password'" 
           formControlName="password">
 
-        <button type="button" (click)="togglePassword()">
-          {{ showPassword ? 'Hide' : 'Show' }}
-        </button>
+        <span (click)="togglePassword()" class="eye-icon">
+          <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </span>
+
       </div>
 
       <div class="validation"
@@ -50,8 +55,9 @@
       <label>Role</label>
       <select formControlName="role">
         <option value="">Select Role</option>
-        <option value="USER">User</option>
-        <option value="ADMIN">Admin</option>
+        <option value="MANUFACTURER">Manufacturer</option>
+        <option value="WHOLESALER">Wholesaler</option>
+        <option value="CONSUMER">Consumer</option>
       </select>
 
       <div class="validation"
@@ -59,11 +65,12 @@
         Role is required
       </div>
 
-      <!-- Button -->
+      <!-- Submit -->
       <button type="submit" [disabled]="itemForm.invalid || isSubmitting">
         {{ isSubmitting ? 'Registering...' : 'Register' }}
       </button>
 
     </form>
+
   </div>
 </div>

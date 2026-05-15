@@ -27,9 +27,22 @@
         Username is required
       </div>
 
-      <!-- Password -->
+      <!-- ✅ Password -->
       <label>Password</label>
-      <input type="password" formControlName="password" placeholder="******">
+
+      <div class="password-box">
+
+        <input 
+          [type]="showPassword ? 'text' : 'password'" 
+          formControlName="password" 
+          placeholder="******">
+
+        <!-- ✅ Eye Icon -->
+        <span (click)="togglePassword()" class="eye-icon">
+          <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
+        </span>
+
+      </div>
 
       <div class="validation"
         *ngIf="itemForm.get('password')?.touched && itemForm.get('password')?.invalid">
