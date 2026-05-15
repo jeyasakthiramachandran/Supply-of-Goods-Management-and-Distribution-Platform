@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
-import { AuthService } from '../../services/auth.service';
 import { DatePipe } from '@angular/common';
 
 @Component({
@@ -11,5 +9,112 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./consumer-get-orders.component.scss'],
   providers: [DatePipe]
 })
-export class ConsumerGetOrdersComponent //todo: complete missing code
-{}
+export class ConsumerGetOrdersComponent implements OnInit {
+
+  itemForm!: FormGroup;
+  orders: any[] = [];
+  filtered: any[] = [];
+
+  searchTerm = '';
+  filterStatus = '';
+
+  successMsg = '';
+  errorMsg = '';
+
+  showFeedbackFor: any = null;
+
+  constructor(
+    private fb: FormBuilder,
+    private httpService: HttpService,
+    private datePipe: DatePipe
+  ) {}
+
+  // ✅ INIT
+  ngOnInit(): void {
+    const userId = localStorage.getItem('userId');
+
+    this.itemForm = this.fb.group({
+      orderId: [''],
+      userId: [userId],
+      content: ['', [Validators.required]],
+      timestamp: [this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSS')]
+    });
+
+    this.loadOrders();
+  }
+
+  // ✅ LOAD ORDERS
+  loadOrders(): void {
+    const userId = localStorage.getItem('userId');
+
+    if (userId) {
+      this.httpService.getOrderConsumer(userId).subscribe({
+        next: (res: any) => {
+          this.orders = res;
+          this.applyFilter();
+        },
+        error: () => {
+          this.errorMsg = 'Failed to load orders';
+        }
+      });
+    }
+  }
+
+  // ✅ FILTER
+  applyFilter(): void {
+    let list = [...this.orders];
+
+    if (this.searchTerm) {
+      const t = this.searchTerm.toLowerCase();
+      list = list.filter(o =>
+        o.product?.name?.toLowerCase().includes(t)
+      );
+    }
+
+    if (this.filterStatus) {
+      list = list.filter(o => o.status === this.filterStatus);
+    }
+
+    this.filtered = list;
+  }
+
+  // ✅ OPEN FEEDBACK FORM
+  openFeedback(order: any): void {
+    this.showFeedbackFor = order;
+
+    this.itemForm.patchValue({
+      orderId: order.id,
+      content: '',
+      timestamp: this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSS')
+    });
+
+    this.errorMsg = '';
+  }
+
+  // ✅ SUBMIT FEEDBACK
+  onSubmit(): void {
+    if (this.itemForm.invalid) return;
+
+    const { orderId, userId, content, timestamp } = this.itemForm.value;
+
+    this.httpService.addConsumerFeedBack(orderId, userId, { content, timestamp })
+      .subscribe({
+        next: () => {
+          this.successMsg = 'Feedback submitted successfully';
+          this.showFeedbackFor = null;
+
+          this.itemForm.patchValue({ content: '' });
+
+          setTimeout(() => this.successMsg = '', 3000);
+        },
+        error: () => {
+          this.errorMsg = 'Failed to submit feedback';
+        }
+      });
+  }
+
+  // ✅ CHECK IF FEEDBACK ALLOWED
+  canLeaveFeedback(order: any): boolean {
+    return order.status === 'DELIVERED';
+  }
+}

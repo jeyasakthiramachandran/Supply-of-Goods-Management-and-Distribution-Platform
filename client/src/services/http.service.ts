@@ -66,10 +66,10 @@ export class HttpService {
   }
   Login(details:any):Observable<any>
   {
-    return this.http.post(`${this.serverName}/api/user/login`,details,{headers:this.header()})
+    return this.http.post(`${this.serverName}/api/user/login`,details)
   }
   registerUser(details:any):Observable<any>{
-    return this.http.post(`${this.serverName}/api/user/register`,details,{headers:this.header()})
+    return this.http.post(`${this.serverName}/api/user/register`,details)
   }
   
 }
