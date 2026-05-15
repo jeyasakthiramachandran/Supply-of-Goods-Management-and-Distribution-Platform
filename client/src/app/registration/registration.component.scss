@@ -5,24 +5,18 @@
 }
 
 .register-card {
-  max-width: 900px;
+  max-width: 500px;
   margin: auto;
   background: #fff;
   padding: 30px;
   border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
   h2 {
-    margin-bottom: 20px;
+    text-align: center;
   }
 
-  label {
-    display: block;
-    margin-top: 15px;
-    font-size: 14px;
-  }
-
-  input,
-  select {
+  input, select {
     width: 100%;
     padding: 10px;
     margin-top: 5px;
@@ -31,18 +25,19 @@
   }
 
   .password-box {
-    display: flex;
+    position: relative;
 
     input {
-      flex: 1;
+      padding-right: 40px;
     }
 
-    button {
-      margin-left: 10px;
-      padding: 10px 15px;
-      border: 1px solid #ccc;
-      background: #eee;
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
       cursor: pointer;
+      color: #555;
     }
   }
 
@@ -51,23 +46,23 @@
     font-size: 12px;
   }
 
-  .error-msg {
-    color: red;
-    margin-bottom: 10px;
+  .success-msg {
+    color: green;
+    text-align: center;
   }
 
-  button[type="submit"] {
+  .error-msg {
+    color: red;
+    text-align: center;
+  }
+
+  button {
+    width: 100%;
     margin-top: 20px;
-    padding: 10px 20px;
+    padding: 10px;
     background: #4a90e2;
     color: white;
     border: none;
     border-radius: 5px;
-    cursor: pointer;
-
-    &:disabled {
-      background: #aaa;
-      cursor: not-allowed;
-    }
   }
 }

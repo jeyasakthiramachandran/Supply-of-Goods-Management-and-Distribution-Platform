@@ -7,12 +7,12 @@
 }
 
 .login-card {
-  width: 520px;            // ⭐ increased width
+  width: 520px; // ⭐ increased width
   background: #ffffff;
-  padding: 40px;           // ⭐ more padding
+  padding: 40px; // ⭐ more padding
   border-radius: 8px;
   border-top: 4px solid #2d6cdf;
-  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   text-align: center;
 
   h2 {
@@ -20,6 +20,27 @@
     font-weight: bold;
     margin-bottom: 10px;
     line-height: 1.4;
+  }
+
+  .password-box {
+    position: relative;
+
+    input {
+      padding-right: 40px; // space for eye icon
+    }
+
+    .eye-icon {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #555;
+    }
+
+    .eye-icon:hover {
+      color: #000;
+    }
   }
 
   .subtitle {
@@ -37,7 +58,7 @@
 
   input {
     width: 100%;
-    padding: 12px;        // ⭐ bigger input
+    padding: 12px; // ⭐ bigger input
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 5px;
