@@ -1,1 +1,69 @@
-//todo: complete missing code
+<div class="register-container">
+  <div class="register-card">
+
+    <!-- Heading -->
+    <h2>Registration</h2>
+
+    <!-- Error -->
+    <div *ngIf="errorMsg" class="error-msg">
+      {{ errorMsg }}
+    </div>
+
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+
+      <!-- Email -->
+      <label>Email</label>
+      <input type="email" formControlName="email">
+
+      <div class="validation"
+        *ngIf="itemForm.get('email')?.touched && itemForm.get('email')?.invalid">
+        Enter valid email
+      </div>
+
+      <!-- Username -->
+      <label>Username</label>
+      <input type="text" formControlName="username">
+
+      <div class="validation"
+        *ngIf="itemForm.get('username')?.touched && itemForm.get('username')?.invalid">
+        Username is required
+      </div>
+
+      <!-- Password -->
+      <label>Password</label>
+      <div class="password-box">
+        <input 
+          [type]="showPassword ? 'text' : 'password'" 
+          formControlName="password">
+
+        <button type="button" (click)="togglePassword()">
+          {{ showPassword ? 'Hide' : 'Show' }}
+        </button>
+      </div>
+
+      <div class="validation"
+        *ngIf="itemForm.get('password')?.touched && itemForm.get('password')?.invalid">
+        Password is required
+      </div>
+
+      <!-- Role -->
+      <label>Role</label>
+      <select formControlName="role">
+        <option value="">Select Role</option>
+        <option value="USER">User</option>
+        <option value="ADMIN">Admin</option>
+      </select>
+
+      <div class="validation"
+        *ngIf="itemForm.get('role')?.touched && itemForm.get('role')?.invalid">
+        Role is required
+      </div>
+
+      <!-- Button -->
+      <button type="submit" [disabled]="itemForm.invalid || isSubmitting">
+        {{ isSubmitting ? 'Registering...' : 'Register' }}
+      </button>
+
+    </form>
+  </div>
+</div>

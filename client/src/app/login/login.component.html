@@ -1,4 +1,53 @@
-//todo: complete missing code
-<h1>hello
-    
-</h1>
+<div class="login-container">
+  <div class="login-card">
+
+    <!-- Heading -->
+    <h2>
+      SUPPLY-OF-GOODS <br>
+      MANAGEMENT AND <br>
+      DISTRIBUTION PLATFORM
+    </h2>
+
+    <p class="subtitle">Please enter your user and password!</p>
+
+    <!-- Error -->
+    <div *ngIf="errorMsg" class="error-msg">
+      {{ errorMsg }}
+    </div>
+
+    <!-- Form -->
+    <form [formGroup]="itemForm" (ngSubmit)="onLogin()">
+
+      <!-- Username -->
+      <label>Username</label>
+      <input type="text" formControlName="username" placeholder="name@example.com">
+
+      <div class="validation"
+        *ngIf="itemForm.get('username')?.touched && itemForm.get('username')?.invalid">
+        Username is required
+      </div>
+
+      <!-- Password -->
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="******">
+
+      <div class="validation"
+        *ngIf="itemForm.get('password')?.touched && itemForm.get('password')?.invalid">
+        Password is required
+      </div>
+
+      <!-- Button -->
+      <button type="submit" [disabled]="itemForm.invalid">
+        Login
+      </button>
+
+    </form>
+
+    <!-- Footer -->
+    <p class="footer">
+      Don’t have an account?
+      <a routerLink="/registration">Registration</a>
+    </p>
+
+  </div>
+</div>
