@@ -27,12 +27,12 @@ export class RegistrationComponent implements OnInit {
       email: [
         "",
         [
-          Validators.required,
-          Validators.pattern(/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)
+          Validators.required,Validators.email
+          
         ]
       ],
       username: ["", [Validators.required]],
-      password: ["", [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
+      password: ["", [Validators.required]],
       role: ["", [Validators.required]]
     });
   }

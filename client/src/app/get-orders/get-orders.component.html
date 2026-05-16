@@ -3,7 +3,11 @@
   <!-- Heading -->
   <h3>Orders</h3>
 
-  <!-- Order Info Box -->
+  <!-- Messages -->
+  <div class="alert alert-success" *ngIf="successMsg">{{ successMsg }}</div>
+  <div class="alert alert-danger" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+  <!-- Order Table -->
   <div class="card mb-3">
     <div class="card-header">
       Order Information
@@ -11,44 +15,51 @@
 
     <div class="card-body">
 
-      <!-- Status Field -->
-      <div class="form-group mb-3">
-        <label>Status</label>
-        <select class="form-control">
-          <option>Select Status</option>
-        </select>
-      </div>
-
-      <!-- Table -->
-      <table class="table table-borderless">
+      <table class="table table-bordered">
         <thead>
           <tr>
             <th>Sr#</th>
             <th>Quantity</th>
             <th>Status</th>
             <th>Product</th>
+            <th>Update Status</th>
             <th>Action</th>
           </tr>
         </thead>
 
         <tbody>
-          <tr *ngFor="let order of receivedOrders; let i = index">
+          <tr *ngFor="let order of orders; let i = index">
+
             <td>{{ i + 1 }}</td>
             <td>{{ order.quantity }}</td>
             <td>{{ order.status }}</td>
 
+            <!-- Product Info -->
             <td>
-              <div>Name: {{ order.product?.name }}</div>
-              <div>Price: {{ order.product?.price }}</div>
-              <div>Description: {{ order.product?.description }}</div>
+              <div><b>{{ order.product?.name }}</b></div>
+              <div>₹ {{ order.product?.price }}</div>
+              <div class="text-muted">{{ order.product?.description }}</div>
             </td>
 
+            <!-- ✅ FIX: Bind dropdown -->
+            <td>
+              <select class="form-control"
+                      [(ngModel)]="order.selectedStatus">
+                <option value="">Select Status</option>
+                <option *ngFor="let s of statuses" [value]="s">
+                  {{ s }}
+                </option>
+              </select>
+            </td>
+
+            <!-- ✅ Action -->
             <td>
               <button class="btn btn-primary btn-sm"
                       (click)="processOrder(order)">
-                Process Orders
+                Process
               </button>
             </td>
+
           </tr>
         </tbody>
 
