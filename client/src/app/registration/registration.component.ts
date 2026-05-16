@@ -32,7 +32,7 @@ export class RegistrationComponent implements OnInit {
         ]
       ],
       username: ["", [Validators.required]],
-      password: ["", [Validators.required]],
+      password: ["", [Validators.required, Validators.pattern(/^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/)]],
       role: ["", [Validators.required]]
     });
   }
@@ -48,6 +48,8 @@ export class RegistrationComponent implements OnInit {
           this.isSubmitting = false;
           this.successMsg = "Registration successful!";
           this.itemForm.reset();
+          setTimeout(() => this.router.navigate(['/login']), 3000)
+
         },
         error: (err) => {
           this.isSubmitting = false;

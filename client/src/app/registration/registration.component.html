@@ -17,8 +17,7 @@
       <label>Email</label>
       <input type="email" formControlName="email">
 
-      <div class="validation"
-        *ngIf="itemForm.get('email')?.touched && itemForm.get('email')?.invalid">
+      <div class="validation" *ngIf="itemForm.get('email')?.touched && itemForm.get('email')?.invalid">
         Enter valid email
       </div>
 
@@ -26,8 +25,7 @@
       <label>Username</label>
       <input type="text" formControlName="username">
 
-      <div class="validation"
-        *ngIf="itemForm.get('username')?.touched && itemForm.get('username')?.invalid">
+      <div class="validation" *ngIf="itemForm.get('username')?.touched && itemForm.get('username')?.invalid">
         Username is required
       </div>
 
@@ -36,9 +34,7 @@
 
       <div class="password-box">
 
-        <input 
-          [type]="showPassword ? 'text' : 'password'" 
-          formControlName="password">
+        <input [type]="showPassword ? 'text' : 'password'" formControlName="password">
 
         <span (click)="togglePassword()" class="eye-icon">
           <i class="bi" [ngClass]="showPassword ? 'bi-eye-slash' : 'bi-eye'"></i>
@@ -46,9 +42,21 @@
 
       </div>
 
-      <div class="validation"
-        *ngIf="itemForm.get('password')?.touched && itemForm.get('password')?.invalid">
-        Password is required
+      <div class="validation" *ngIf="itemForm.get('password')?.touched && itemForm.get('password')?.errors">
+
+        <!-- Required -->
+        <div *ngIf="itemForm.get('password')?.errors?.['required']">
+          Password is required
+        </div>
+
+        <!-- Pattern -->
+        <div *ngIf="itemForm.get('password')?.errors?.['pattern']">
+          Must be 8 character
+          1 uppercase
+          1 number
+          1 special character
+        </div>
+
       </div>
 
       <!-- Role -->
@@ -60,8 +68,7 @@
         <option value="CONSUMER">Consumer</option>
       </select>
 
-      <div class="validation"
-        *ngIf="itemForm.get('role')?.touched && itemForm.get('role')?.invalid">
+      <div class="validation" *ngIf="itemForm.get('role')?.touched && itemForm.get('role')?.invalid">
         Role is required
       </div>
 

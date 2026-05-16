@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
     private httpService: HttpService,
     private authSerivce: AuthService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.itemForm = this.fb.group({
@@ -41,7 +41,11 @@ export class LoginComponent implements OnInit {
           this.authSerivce.SetRole(res.role);
           this.authSerivce.saveUserId(res.userId);
 
-          this.router.navigate(['/dashboard'], { replaceUrl: true });
+
+          this.router.navigate(['/dashboard']).then(() => {
+            window.location.reload();
+          });
+
         },
         error: () => {
           this.errorMsg = "Invalid username or password";

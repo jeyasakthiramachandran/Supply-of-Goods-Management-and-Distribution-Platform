@@ -1,1 +1,84 @@
-//todo: complete missing code
+<div class="container mt-4">
+
+  <!-- Page Title -->
+  <h3 class="mb-3">Manage Product Inventory</h3>
+
+  <!-- Form Card -->
+  <div class="card p-3 mb-4">
+
+    <h5 class="mb-3">Add Product Inventory</h5>
+
+    <form [formGroup]="itemForm" (ngSubmit)="onSubmit()">
+
+      <div class="row align-items-end">
+
+        <!-- Product -->
+        <div class="col-md-4">
+          <label>Products</label>
+          <select formControlName="productId" class="form-control">
+            <option value="">Select Product</option>
+            <option *ngFor="let p of products" [value]="p.id">
+              {{ p.name }}
+            </option>
+          </select>
+
+          <small class="text-danger"
+            *ngIf="itemForm.get('productId')?.touched && itemForm.get('productId')?.invalid">
+            Product is required
+          </small>
+        </div>
+
+        <!-- Quantity -->
+        <div class="col-md-4">
+          <label>Stock Quantity</label>
+          <input type="number" formControlName="stockQuantity" class="form-control">
+
+          <small class="text-danger"
+            *ngIf="itemForm.get('stockQuantity')?.touched && itemForm.get('stockQuantity')?.invalid">
+            Quantity required
+          </small>
+        </div>
+
+        <!-- Button -->
+        <div class="col-md-4">
+          <button type="submit" class="btn btn-outline-dark w-100">
+            {{ editingId ? 'Update' : 'Submit' }}
+          </button>
+        </div>
+
+      </div>
+
+    </form>
+  </div>
+
+  <!-- Order Info Heading -->
+  <div class="card p-2 mb-2">
+    <strong>Order Information</strong>
+  </div>
+
+  <!-- Table -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Sr#</th>
+        <th>Product</th>
+        <th>Stock Quantity</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <tr *ngFor="let i of inventories; let index = index">
+        <td>{{ index + 1 }}</td>
+        <td>{{ i.product?.name }}</td>
+        <td>{{ i.stockQuantity }}</td>
+        <td>
+          <button class="btn btn-warning btn-sm" (click)="editInventory(i)">
+            Edit
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
