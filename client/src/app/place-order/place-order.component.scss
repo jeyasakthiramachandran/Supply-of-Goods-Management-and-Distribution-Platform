@@ -1,0 +1,121 @@
+.page {
+  padding: 25px 40px;
+  background: #f9fafb;
+}
+
+/* CARD */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 20px;
+
+  h4 {
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+  }
+}
+
+/* FORM */
+.form-row {
+  display: flex;
+  gap: 20px;
+}
+
+.form-group {
+  flex: 1;
+
+  label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+  }
+
+  input,
+  select {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+}
+
+/* BUTTON */
+.btn-submit {
+  margin-top: 15px;
+  padding: 10px 16px;
+  background: #4a90e2;
+  border: none;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-submit:hover {
+  background: #357abd;
+}
+
+/* TABLE */
+.table-card {
+  background: #fff;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+  padding: 15px;
+
+  h4 {
+    margin-bottom: 10px;
+  }
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th,
+  td {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+
+  th {
+    font-weight: 600;
+  }
+}
+
+/* ACTIVE ROW */
+.active-row {
+  background: #f3f4f6;
+}
+
+/* ORDER BUTTON */
+.btn-order {
+  background: #facc15;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.btn-order:hover {
+  background: #eab308;
+}
+
+.btn-order:disabled {
+  background: #ccc;
+}
+
+/* MESSAGES */
+.msg {
+  margin-top: 10px;
+  font-size: 14px;
+}
+
+.success {
+  color: green;
+}
+
+.error {
+  color: red;
+}

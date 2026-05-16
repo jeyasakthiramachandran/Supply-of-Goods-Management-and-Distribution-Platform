@@ -1,1 +1,60 @@
-//todo: complete missing code
+<div class="container mt-3">
+
+  <!-- Heading -->
+  <h3>Orders</h3>
+
+  <!-- Order Info Box -->
+  <div class="card mb-3">
+    <div class="card-header">
+      Order Information
+    </div>
+
+    <div class="card-body">
+
+      <!-- Status Field -->
+      <div class="form-group mb-3">
+        <label>Status</label>
+        <select class="form-control">
+          <option>Select Status</option>
+        </select>
+      </div>
+
+      <!-- Table -->
+      <table class="table table-borderless">
+        <thead>
+          <tr>
+            <th>Sr#</th>
+            <th>Quantity</th>
+            <th>Status</th>
+            <th>Product</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let order of receivedOrders; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ order.quantity }}</td>
+            <td>{{ order.status }}</td>
+
+            <td>
+              <div>Name: {{ order.product?.name }}</div>
+              <div>Price: {{ order.product?.price }}</div>
+              <div>Description: {{ order.product?.description }}</div>
+            </td>
+
+            <td>
+              <button class="btn btn-primary btn-sm"
+                      (click)="processOrder(order)">
+                Process Orders
+              </button>
+            </td>
+          </tr>
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+
+</div>
