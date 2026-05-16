@@ -1,80 +1,76 @@
-<div class="page">
+<div class="container">
 
   <h2>Place Order</h2>
 
-  <!-- FORM -->
-  <div class="card">
-    <h4>Place Order</h4>
+  <!-- ✅ Messages -->
+  <div class="msg success" *ngIf="successMsg">{{ successMsg }}</div>
+  <div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
 
-    <form [formGroup]="orderForm" (ngSubmit)="placeOrder()">
+  <!-- ✅ FORM -->
+  <form [formGroup]="itemForm" (ngSubmit)="onSubmit()" class="form">
 
-      <div class="form-row">
-        <div class="form-group">
-          <label>Quantity</label>
-          <input type="number" formControlName="quantity" />
-        </div>
+    <!-- Quantity -->
+    <div>
+      <input
+        type="number"
+        formControlName="quantity"
+        placeholder="Enter Quantity" />
 
-        <div class="form-group">
-          <label>Status</label>
-          <select formControlName="status">
-            <option value="Start">Select Status</option>
-            <option value="Pending">Pending</option>
-            <option value="Confirmed">Confirmed</option>
-          </select>
-        </div>
+      <!-- Validation -->
+      <div class="error"
+           *ngIf="itemForm.get('quantity')?.touched && itemForm.get('quantity')?.invalid">
+        Quantity is required and must be a number
+      </div>
+    </div>
+
+    <!-- Status -->
+    <div>
+      <select formControlName="status">
+
+        <option value="">Select Status</option>
+        <option value="PENDING">Pending</option>
+        <option value="CONFIRMED">Confirmed</option>
+
+      </select>
+
+      <!-- Validation -->
+      <div class="error"
+           *ngIf="itemForm.get('status')?.touched && itemForm.get('status')?.invalid">
+        Status is required
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <button type="submit">
+      Place Order
+    </button>
+
+  </form>
+
+  <!-- ✅ PRODUCT LIST -->
+  <div class="product-list">
+
+    <div class="card"
+         *ngFor="let p of products"
+         [class.active]="selectedProductId === p.id">
+
+      <h3>{{ p.name }}</h3>
+      <p>{{ p.description }}</p>
+
+      <div class="info">
+        <span>₹ {{ p.price }}</span>
+        <span>Stock: {{ p.stockQuantity }}</span>
       </div>
 
-      <!-- MESSAGES -->
-      <div class="msg success" *ngIf="successMsg">{{ successMsg }}</div>
-      <div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
+      <button
+        type="button"
+        (click)="selectProduct(p.id)"
+        [disabled]="p.stockQuantity === 0">
 
-      <!-- SUBMIT BUTTON -->
-      <button type="submit" class="btn-submit">
-        Place Order
+        {{ p.stockQuantity === 0 ? 'Out of Stock' : 'Select Product' }}
       </button>
 
-    </form>
-  </div>
-
-  <!-- TABLE -->
-  <div class="table-card">
-    <h4>Order Information</h4>
-
-    <table>
-      <thead>
-        <tr>
-          <th>Sr#</th>
-          <th>Product Name</th>
-          <th>Price</th>
-          <th>Stock Quantity</th>
-          <th>Description</th>
-          <th>Action</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        <tr *ngFor="let p of products; let i = index"
-            [class.active-row]="selectedProductId === p.id">
-
-          <td>{{ i + 1 }}</td>
-          <td>{{ p.name }}</td>
-          <td>{{ p.price }}</td>
-          <td>{{ p.stockQuantity }}</td>
-          <td>{{ p.description }}</td>
-
-          <td>
-            <button
-              class="btn-order"
-              (click)="selectProduct(p.id)"
-              [disabled]="p.stockQuantity === 0">
-
-              {{ p.stockQuantity === 0 ? 'Out of Stock' : 'Add For Order' }}
-            </button>
-          </td>
-
-        </tr>
-      </tbody>
-    </table>
+    </div>
 
   </div>
 

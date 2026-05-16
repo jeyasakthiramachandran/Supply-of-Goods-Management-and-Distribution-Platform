@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
 import { HttpService } from '../../services/http.service';
-import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-place-order',
@@ -11,38 +9,36 @@ import { AuthService } from '../../services/auth.service';
 })
 export class PlaceOrderComponent implements OnInit {
 
-  orderForm!: FormGroup;
+  // ✅ CHANGE NAME (IMPORTANT)
+  itemForm!: FormGroup;
 
   products: any[] = [];
-  selectedProductId: any;
+  selectedProductId: any = null;
 
   successMsg = '';
   errorMsg = '';
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private httpService: HttpService,
-    private authService: AuthService
+    private httpService: HttpService
   ) {}
 
   ngOnInit(): void {
-    this.orderForm = this.fb.group({
-      quantity: ['', Validators.required],
-      status: ['Start', Validators.required]
+
+    // ✅ FORM NAME FIXED
+    this.itemForm = this.fb.group({
+      quantity: ['', [Validators.required, Validators.min(1), Validators.pattern('^[0-9]+$')]],
+      status: ['', Validators.required]
     });
 
     this.loadProducts();
   }
 
-  // ✅ Load all products (from manufacturer)
   loadProducts(): void {
-    const userId = localStorage.getItem('userId');
-    if (!userId) return;
-
-    this.httpService.getProductsByManufacturer(userId).subscribe({
+    this.httpService.getProductsByWholesaler().subscribe({
       next: (res: any) => {
-        this.products = res;
+        this.products = res || [];
+        this.errorMsg = '';
       },
       error: () => {
         this.errorMsg = 'Failed to load products';
@@ -50,39 +46,46 @@ export class PlaceOrderComponent implements OnInit {
     });
   }
 
-  // ✅ Store selected productId (Add for Order button)
   selectProduct(productId: any): void {
     this.selectedProductId = productId;
-    this.successMsg = 'Product selected for order';
+    this.successMsg = 'Product selected ✅';
+    this.errorMsg = '';
   }
 
-  // ✅ Place order
-  placeOrder(): void {
-    if (this.orderForm.invalid || !this.selectedProductId) {
-      this.errorMsg = 'Please fill form and select product';
+  // ✅ METHOD NAME FIXED
+  onSubmit(): void {
+
+    this.successMsg = '';
+    this.errorMsg = '';
+
+    if (this.itemForm.invalid) {
+      this.itemForm.markAllAsTouched();
+      this.errorMsg = 'Enter valid quantity';
+      return;
+    }
+
+    if (!this.selectedProductId) {
+      this.errorMsg = 'Select product first';
       return;
     }
 
     const userId = localStorage.getItem('userId');
     if (!userId) return;
 
-    const orderData = this.orderForm.value;
-
     this.httpService.placeOrder(
-      orderData,
+      this.itemForm.value,
       this.selectedProductId,
       userId
     ).subscribe({
       next: () => {
-        this.successMsg = 'Order placed successfully';
-        this.errorMsg = '';
-        this.orderForm.reset({ status: 'Start' });
+        this.successMsg = 'Order placed successfully ✅';
+        this.selectedProductId = null;
+
+        this.itemForm.reset();   // ✅ RESET FORM
       },
       error: () => {
         this.errorMsg = 'Failed to place order';
-        this.successMsg = '';
       }
     });
   }
-
 }

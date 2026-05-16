@@ -1,1 +1,70 @@
-//todo: complete missing code
+<div class="container">
+
+  <h2>My Orders</h2>
+
+  <!-- ✅ Messages -->
+  <div class="msg success" *ngIf="successMsg">{{ successMsg }}</div>
+  <div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+  <!-- ✅ Filter -->
+  <div class="filter-box">
+    <input type="text"
+           placeholder="Search product..."
+           [(ngModel)]="searchTerm"
+           (input)="applyFilter()" />
+
+    <select [(ngModel)]="filterStatus" (change)="applyFilter()">
+      <option value="">All</option>
+      <option value="PENDING">Pending</option>
+      <option value="SHIPPED">Shipped</option>
+      <option value="DELIVERED">Delivered</option>
+    </select>
+  </div>
+
+  <!-- ✅ Orders -->
+  <div class="card" *ngFor="let o of filtered">
+
+    <div class="header">
+      <h3>Order #{{ o.id }}</h3>
+      <span class="status">{{ o.status }}</span>
+    </div>
+
+    <p><b>Quantity:</b> {{ o.quantity }}</p>
+
+    <div class="product">
+      <b>{{ o.product?.name }}</b>
+      <div>₹ {{ o.product?.price }}</div>
+      <div class="desc">{{ o.product?.description }}</div>
+    </div>
+
+    <!-- ✅ Feedback Button -->
+    <button
+      *ngIf="canLeaveFeedback(o)"
+      (click)="openFeedback(o)">
+      Give Feedback
+    </button>
+
+  </div>
+
+  <!-- ✅ ✅ SINGLE GLOBAL FORM (IMPORTANT FIX) -->
+  <div *ngIf="showFeedbackFor" class="feedback-box">
+
+    <h4>Feedback for Order #{{ showFeedbackFor.id }}</h4>
+
+    <form [formGroup]="itemForm">
+
+      <textarea
+        formControlName="content"
+        placeholder="Write your feedback">
+      </textarea>
+
+      <button type="button" (click)="onSubmit()">
+        Submit Feedback
+      </button>
+
+    </form>
+
+  </div>
+
+</div>
+``

@@ -80,41 +80,64 @@ export class ConsumerGetOrdersComponent implements OnInit {
 
   // ✅ OPEN FEEDBACK FORM
   openFeedback(order: any): void {
-    this.showFeedbackFor = order;
+  this.showFeedbackFor = order;
 
-    this.itemForm.patchValue({
-      orderId: order.id,
-      content: '',
-      timestamp: this.datePipe.transform(new Date(), 'yyyy-MM-ddTHH:mm:ss.SSS')
-    });
+  const userId = localStorage.getItem('userId');
 
-    this.errorMsg = '';
-  }
+  this.itemForm.patchValue({
+    orderId: order.id,              // ✅ IMPORTANT
+    userId: Number(userId),         // ✅ FIX
+    content: '',
+    timestamp: this.datePipe.transform(
+      new Date(),
+      'yyyy-MM-ddTHH:mm:ss.SSS'
+    )
+  });
+
+  console.log("Opened feedback for:", order.id); // ✅ DEBUG
+}
 
   // ✅ SUBMIT FEEDBACK
   onSubmit(): void {
-    if (this.itemForm.invalid) return;
+  if (this.itemForm.invalid) {
+    this.errorMsg = 'Please enter feedback';
+    return;
+  }
 
-    const { orderId, userId, content, timestamp } = this.itemForm.value;
+  const orderId = Number(this.itemForm.value.orderId);   // ✅ FIX
+  const userId = Number(this.itemForm.value.userId);
+  console.log("userId: ",userId);
+       // ✅ FIX
+  const content = this.itemForm.value.content;
 
-    this.httpService.addConsumerFeedBack(orderId, userId, { content, timestamp })
-      .subscribe({
-        next: () => {
-          this.successMsg = 'Feedback submitted successfully';
-          this.showFeedbackFor = null;
+  const timestamp = this.datePipe.transform(
+    new Date(),
+    'yyyy-MM-ddTHH:mm:ss.SSS'
+  );
 
-          this.itemForm.patchValue({ content: '' });
+  console.log("Sending:", orderId, userId, content); // ✅ DEBUG
 
-          setTimeout(() => this.successMsg = '', 3000);
-        },
-        error: () => {
-          this.errorMsg = 'Failed to submit feedback';
-        }
+  this.httpService.addConsumerFeedBack(orderId, userId, {
+    content,
+    timestamp,
+  }).subscribe({
+    next: () => {
+      this.successMsg = 'Feedback submitted successfully ✅';
+      this.errorMsg = '';
+
+      this.showFeedbackFor = null;
+
+      this.itemForm.patchValue({
+        content: ''
       });
-  }
 
-  // ✅ CHECK IF FEEDBACK ALLOWED
-  canLeaveFeedback(order: any): boolean {
-    return order.status === 'DELIVERED';
-  }
+      setTimeout(() => this.successMsg = '', 3000);
+    },
+    error: (err) => {
+      console.error("Feedback Error:", err);   // ✅ IMPORTANT
+      this.errorMsg = 'Failed to submit feedback ❌';
+      this.successMsg = '';
+    }
+  });
+}
 }
