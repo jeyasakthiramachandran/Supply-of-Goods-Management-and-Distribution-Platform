@@ -1,1 +1,81 @@
-//todo: complete missing code
+<div class="page">
+
+  <h2>Place Order</h2>
+
+  <!-- FORM -->
+  <div class="card">
+    <h4>Place Order</h4>
+
+    <form [formGroup]="orderForm" (ngSubmit)="placeOrder()">
+
+      <div class="form-row">
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" formControlName="quantity" />
+        </div>
+
+        <div class="form-group">
+          <label>Status</label>
+          <select formControlName="status">
+            <option value="Start">Select Status</option>
+            <option value="Pending">Pending</option>
+            <option value="Confirmed">Confirmed</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- MESSAGES -->
+      <div class="msg success" *ngIf="successMsg">{{ successMsg }}</div>
+      <div class="msg error" *ngIf="errorMsg">{{ errorMsg }}</div>
+
+      <!-- SUBMIT BUTTON -->
+      <button type="submit" class="btn-submit">
+        Place Order
+      </button>
+
+    </form>
+  </div>
+
+  <!-- TABLE -->
+  <div class="table-card">
+    <h4>Order Information</h4>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Sr#</th>
+          <th>Product Name</th>
+          <th>Price</th>
+          <th>Stock Quantity</th>
+          <th>Description</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr *ngFor="let p of products; let i = index"
+            [class.active-row]="selectedProductId === p.id">
+
+          <td>{{ i + 1 }}</td>
+          <td>{{ p.name }}</td>
+          <td>{{ p.price }}</td>
+          <td>{{ p.stockQuantity }}</td>
+          <td>{{ p.description }}</td>
+
+          <td>
+            <button
+              class="btn-order"
+              (click)="selectProduct(p.id)"
+              [disabled]="p.stockQuantity === 0">
+
+              {{ p.stockQuantity === 0 ? 'Out of Stock' : 'Add For Order' }}
+            </button>
+          </td>
+
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
