@@ -1,0 +1,101 @@
+.container {
+  max-width: 900px;
+  margin: auto;
+  padding-top: 20px;
+}
+
+/* Page title */
+h3 {
+  font-weight: 600;
+  margin-bottom: 15px;
+}
+
+/* Card styling (form + section) */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  box-shadow: none;
+}
+
+/* Form section */
+.card h5 {
+  font-size: 16px;
+  margin-bottom: 15px;
+  font-weight: 500;
+}
+
+/* Inputs + dropdown */
+input,
+select {
+  height: 38px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  padding: 6px 10px;
+  font-size: 14px;
+  transition: border 0.2s ease;
+}
+
+/* Focus effect (very light like your UI) */
+input:focus,
+select:focus {
+  border-color: #888;
+  outline: none;
+  box-shadow: none;
+}
+
+/* Button style (matches image) */
+button {
+  height: 38px;
+  border-radius: 4px;
+  border: 1px solid #444;
+  background: #f8f8f8;
+  color: #000;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+button:hover {
+  background: #e6e6e6;
+}
+
+/* Validation text */
+.text-danger {
+  font-size: 12px;
+}
+
+/* Table styling */
+.table {
+  background: #fff;
+}
+
+.table thead {
+  background: #f1f1f1;
+}
+
+.table th {
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.table td {
+  font-size: 14px;
+}
+
+/* Edit button small */
+.btn-warning {
+  background: #ffc107;
+  border: none;
+  color: #000;
+}
+
+.btn-warning:hover {
+  background: #e0a800;
+}
+
+/* Order info bar */
+.card.mb-2 {
+  background: #f8f8f8;
+  border: 1px solid #ddd;
+  padding: 6px 10px;
+}
